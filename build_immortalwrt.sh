@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# BeeconMini SEED AC5 - ImmortalWRT 25.12.0-rc2 一键编译脚本
+# BeeconMini SEED AC3 - ImmortalWRT 25.12.0-rc2 一键编译脚本
 #
 # 用法:
 #   ./build_immortalwrt.sh                    # 交互式:逐步确认
