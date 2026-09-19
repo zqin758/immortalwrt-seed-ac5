@@ -11,8 +11,8 @@
 #
 set -uo pipefail
 
-BRANCH="25.12.0-rc2"
-REPO="https://github.com/BeeconMini/immortalwrt.git"
+BRANCH="ac3"
+REPO="https://github.com/zqin758/immortalwrt-seed-ac5.git"
 SRC_DIR="$HOME/immortalwrt"
 DL_DIR=""
 CONFIG_FILE=""
