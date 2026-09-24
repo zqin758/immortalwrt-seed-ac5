@@ -20,7 +20,7 @@ env:
   REPO_URL: https://github.com/BeeconMini/immortalwrt.git
   REPO_BRANCH: 25.12.0-rc2
   TARGET: mediatek/filogic
-  DEVICE: beeconmini_seed-ac5
+  DEVICE: beeconmini_seed-ac3
   # ccache(编译缓存): 显著缩短二次编译时间(官方 CI 与社区模板均采用)
   CCACHE_DIR: ${{ github.workspace }}/source/.ccache
   CCACHE_MAXSIZE: 2G
@@ -269,9 +269,9 @@ jobs:
       - name: Rename firmware (型号-版本命名)
         run: |
           cd source/bin/targets/mediatek/filogic
-          for f in immortalwrt-*-beeconmini_seed-ac5-*.bin; do
+          for f in immortalwrt-*-beeconmini_seed-ac3-*.bin; do
             [ -e "$f" ] || continue
-            new=$(echo "$f" | sed -E "s/^immortalwrt-mediatek-filogic-beeconmini_seed-ac5/SEED-AC5-${REPO_BRANCH}/")
+            new=$(echo "$f" | sed -E "s/^immortalwrt-mediatek-filogic-beeconmini_seed-ac3/SEED-AC3-${REPO_BRANCH}/")
             mv -v "$f" "$new"
           done
           echo "=== 重命名后产物 ==="
@@ -280,7 +280,7 @@ jobs:
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
-          name: seed-ac5-firmware
+          name: seed-ac3-firmware
           path: |
             source/bin/targets/mediatek/filogic/*.bin
             source/bin/targets/mediatek/filogic/*.buildinfo
