@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# BeeconMini SEED AC5 - ImmortalWRT 25.12.0-rc2 一键编译脚本
+# BeeconMini SEED AC3 - ImmortalWRT 25.12.0-rc2 一键编译脚本
 #
 # 用法:
 #   ./build_immortalwrt.sh                    # 交互式:逐步确认
@@ -156,7 +156,7 @@ if confirm "现在开始编译?"; then
   echo
   log "=== 产物 ==="
   find bin/targets -name '*.bin' -newermt "-3 hours" -printf '%p  (%s bytes)\n' 2>/dev/null | sort
-  log "刷机文件: bin/targets/mediatek/filogic/*beeconmini_seed-ac5-squashfs-sysupgrade.bin"
+  log "刷机文件: bin/targets/mediatek/filogic/*beeconmini_seed-ac3-squashfs-sysupgrade.bin"
 else
   log "已跳过编译。可稍后手动执行: cd $SRC_DIR && make -j$JOBS V=s"
 fi
