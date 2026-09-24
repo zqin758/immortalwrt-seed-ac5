@@ -85,7 +85,7 @@ cd source
 log "应用本仓库的 feeds / .config / files / 补丁脚本"
 # CONFIG_REPO_DIR 已在脚本开头(任何 cd 之前)解析完成, 此处不再重算。
 # 关键: Codespace 里的仓库克隆可能停留在旧提交(历史事故: 用它编译只收敛出 235 个包,
-# 且 bin/targets 里没有 beeconmini_seed-ac5 设备镜像)。先从 origin/master 刷新这两个配置文件。
+# 且 bin/targets 里没有 beeconmini_seed-ac3 设备镜像)。先从 origin/master 刷新这两个配置文件。
 if [ -d "$CONFIG_REPO_DIR/.git" ]; then
   if git -C "$CONFIG_REPO_DIR" fetch -q origin master; then
     for f in .config feeds.conf.default; do
@@ -105,8 +105,8 @@ fi
 cp -f "$CONFIG_REPO_DIR/feeds.conf.default" feeds.conf.default
 cp -f "$CONFIG_REPO_DIR/.config" .config
 # 硬校验: .config 必须真的拷进来了(源里要含目标设备)
-if ! grep -q "beeconmini_seed-ac5" .config; then
-  echo "❌ .config 未正确应用(未找到 beeconmini_seed-ac5)! 来源: $CONFIG_REPO_DIR/.config"
+if ! grep -q "beeconmini_seed-ac3" .config; then
+  echo "❌ .config 未正确应用(未找到 beeconmini_seed-ac3)! 来源: $CONFIG_REPO_DIR/.config"
   echo "   若来源与目标相同会报 'are the same file', 说明 SCRIPT_DIR 解析有误。"
   exit 1
 fi
@@ -149,8 +149,8 @@ grep -qE '^CONFIG_CCACHE=y' .config || echo 'CONFIG_CCACHE=y' >> .config
 
 # ---- 强制目标设备 ----
 # ⚠️ 2026-09-11 实际踩坑: 不带 TARGET/PROFILE 行时 defconfig 会回落到 target 默认设备
-#    (mediatek/filogic 的默认是 openwrt_one), 结果是"编译成功但产物不是 seed-ac5"。
-DEVICE="${DEVICE:-beeconmini_seed-ac5}"
+#    (mediatek/filogic 的默认是 openwrt_one), 结果是"编译成功但产物不是 seed-ac3"。
+DEVICE="${DEVICE:-beeconmini_seed-ac3}"
 force_target() {
   # 删掉全部 mediatek/filogic 相关行(含 DEVICE_xxx), 再由 PROFILE 重新生成
   sed -i -E -e '/^CONFIG_TARGET_mediatek/d' \
@@ -283,13 +283,13 @@ echo "✅ 缓存已上传。可删除本地大文件: rm -f $TARBALL ${TARBALL}.
 IMG_DIR="$WORK/source/bin/targets/mediatek/filogic"
 FIRMWARE_RELEASE="${FIRMWARE_RELEASE:-build-${SRC_BRANCH}}"
 if ls "$IMG_DIR"/*"${DEVICE}"* >/dev/null 2>&1; then
-  log "发现 ${DEVICE} 固件, 按 SEED-AC5-${SRC_BRANCH}-类型 命名并上传: $FIRMWARE_RELEASE"
+  log "发现 ${DEVICE} 固件, 按 SEED-AC3-${SRC_BRANCH}-类型 命名并上传: $FIRMWARE_RELEASE"
   STAGE="/tmp/fw-stage"; rm -rf "$STAGE"; mkdir -p "$STAGE"
   for f in "$IMG_DIR"/*"${DEVICE}"*; do
     base="$(basename "$f")"; ext="${base##*.}"
     case "$base" in
-      *squashfs-sysupgrade*) cp -f "$f" "$STAGE/SEED-AC5-${SRC_BRANCH}-squashfs-sysupgrade.${ext}";;
-      *initramfs*)           cp -f "$f" "$STAGE/SEED-AC5-${SRC_BRANCH}-initramfs.${ext}";;
+      *squashfs-sysupgrade*) cp -f "$f" "$STAGE/SEED-AC3-${SRC_BRANCH}-squashfs-sysupgrade.${ext}";;
+      *initramfs*)           cp -f "$f" "$STAGE/SEED-AC3-${SRC_BRANCH}-initramfs.${ext}";;
       *)                     cp -f "$f" "$STAGE/$base";;
     esac
   done
@@ -297,7 +297,7 @@ if ls "$IMG_DIR"/*"${DEVICE}"* >/dev/null 2>&1; then
   ls -lh "$STAGE"
   if ! gh release view "$FIRMWARE_RELEASE" --repo "$REPO_SLUG" >/dev/null 2>&1; then
     gh release create "$FIRMWARE_RELEASE" --repo "$REPO_SLUG" \
-      --title "SEED AC5 ${SRC_BRANCH} (Codespace build)" --notes "由 Codespace 直接编译产出。" || true
+      --title "SEED AC3 ${SRC_BRANCH} (Codespace build)" --notes "由 Codespace 直接编译产出。" || true
   fi
   gh release upload "$FIRMWARE_RELEASE" "$STAGE"/* --repo "$REPO_SLUG" --clobber
   echo "✅ 固件已上传到 Release: $FIRMWARE_RELEASE"
@@ -307,9 +307,9 @@ fi
 
 if [ "${TRIGGER_BUILD:-0}" = "1" ]; then
   log "触发 Actions 热构建"
-  gh workflow run "Build ImmortalWRT for SEED AC5" --repo "$REPO_SLUG" --ref master
+  gh workflow run "Build ImmortalWRT for SEED AC3" --repo "$REPO_SLUG" --ref master
   sleep 8
-  gh run list --repo "$REPO_SLUG" --workflow "Build ImmortalWRT for SEED AC5" --limit 3
+  gh run list --repo "$REPO_SLUG" --workflow "Build ImmortalWRT for SEED AC3" --limit 3
 else
-  echo "下一步: 在 Actions 手动触发 'Build ImmortalWRT for SEED AC5'(或加 TRIGGER_BUILD=1 自动触发)"
+  echo "下一步: 在 Actions 手动触发 'Build ImmortalWRT for SEED AC3'(或加 TRIGGER_BUILD=1 自动触发)"
 fi
