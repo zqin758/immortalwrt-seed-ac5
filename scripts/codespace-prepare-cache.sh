@@ -309,7 +309,7 @@ if [ "${TRIGGER_BUILD:-0}" = "1" ]; then
   log "触发 Actions 热构建"
   gh workflow run "Build ImmortalWRT for SEED AC3" --repo "$REPO_SLUG" --ref master
   sleep 8
-  gh run list --repo "$REPO_SLUG" --workflow "Build ImmortalWRT for SEED AC3" --limit 3
+  gh run list --repo "$REPO_SLUG" --workflow "Build ImmortalWRT for SEED AC5" --limit 3
 else
-  echo "下一步: 在 Actions 手动触发 'Build ImmortalWRT for SEED AC3'(或加 TRIGGER_BUILD=1 自动触发)"
+  echo "下一步: 在 Actions 手动触发 'Build ImmortalWRT for SEED AC5'(或加 TRIGGER_BUILD=1 自动触发)"
 fi
