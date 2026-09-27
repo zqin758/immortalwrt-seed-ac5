@@ -3,7 +3,7 @@ name: Build ImmortalWRT for SEED AC5
 on:
   workflow_dispatch:    # 手动触发
   push:
-    branches: [master]
+    branches: [dve]
     paths:
       - '.config'
       - 'feeds.conf.default'
