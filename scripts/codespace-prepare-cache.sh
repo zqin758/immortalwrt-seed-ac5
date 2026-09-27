@@ -30,7 +30,7 @@
 # ============================================================================
 set -uo pipefail
 
-REPO_SLUG="${REPO_SLUG:-hu2846/immortalwrt-seed-ac5}"
+REPO_SLUG="${REPO_SLUG:-zqin758/immortalwrt-seed-ac5}"
 SRC_REPO="${SRC_REPO:-https://github.com/BeeconMini/immortalwrt.git}"
 SRC_BRANCH="${SRC_BRANCH:-25.12.0-rc2}"
 CACHE_RELEASE="${CACHE_RELEASE:-prebuilt-cache}"
