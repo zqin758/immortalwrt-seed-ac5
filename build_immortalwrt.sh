@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# BeeconMini SEED AC5 - ImmortalWRT 25.12.0-rc2 一键编译脚本
+# BeeconMini SEED AC3 - ImmortalWRT 25.12.0-rc2 一键编译脚本
 #
 # 用法:
 #   ./build_immortalwrt.sh                    # 交互式:逐步确认
@@ -34,7 +34,7 @@ while [[ $# -gt 0 ]]; do
     --branch)      BRANCH="$2"; shift 2 ;;
     --jobs)        JOBS="$2"; shift 2 ;;
     -h|--help)     sed -n '3,12p' "$0"; exit 0 ;;
-    *)             die "未知参数: $1" ;;
+    *)             die "未知参数 : $1" ;;
   esac
 done
 
@@ -54,7 +54,7 @@ log "当前用户: $(whoami) | CPU: $(nproc) 核 | 可用磁盘: ${AVAIL_GB}G"
 if [[ $AVAIL_GB -lt 100 ]]; then
   warn "可用磁盘仅 ${AVAIL_GB}G。完整编译实测需要约 70G,建议至少准备 150G,"
   warn "否则极可能在编译中途撑爆磁盘。"
-  confirm "仍要继续吗?" || exit 1
+  confirm "仍要继续吗?" || exit 1  
 fi
 
 cat /etc/os-release | grep -q 'Ubuntu' || warn "当前不是 Ubuntu,依赖安装命令可能需要调整"
@@ -156,7 +156,7 @@ if confirm "现在开始编译?"; then
   echo
   log "=== 产物 ==="
   find bin/targets -name '*.bin' -newermt "-3 hours" -printf '%p  (%s bytes)\n' 2>/dev/null | sort
-  log "刷机文件: bin/targets/mediatek/filogic/*beeconmini_seed-ac5-squashfs-sysupgrade.bin"
+  log "刷机文件: bin/targets/mediatek/filogic/*beeconmini_seed-ac3-squashfs-sysupgrade.bin"
 else
   log "已跳过编译。可稍后手动执行: cd $SRC_DIR && make -j$JOBS V=s"
 fi
